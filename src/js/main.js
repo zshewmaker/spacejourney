@@ -12,6 +12,7 @@
     // ***************************************
     function startNewGame() {
         $current_game = $current_game.getNewGame();
+        updateUi();
         log("Starting new game...", "important");
 
         clearMessages();
@@ -21,9 +22,15 @@
         message("And you need to get home.");
     }
 
-    function skipTurn() {
+    function tick() {
         $current_game.appendTurn();
+        $player.processTurn();
+        updateUi();
+    }
+
+    function skipTurn() {
         message("You did nothing.");
+        tick();
     }
 
     function gameWon() {
@@ -31,9 +38,19 @@
         message("You made it home, congrats!");
     }
 
+    function eat() {
+        $player.eat();
+        tick();
+    }
+
     // ***************************************
     // Infrastructure
     // ***************************************
+    function updateUi() {
+        $ui.dayCounters.text($current_game.getTurn());
+        $ui.playerHealthCounters.text($player.getHealth().overall);
+    }
+
     function handleStartNewGame() {
         if (!confirm("Are you sure you wish to start a new game?")) {
             return;
@@ -47,6 +64,10 @@
 
     function handleGameWon() {
         gameWon();
+    }
+
+    function handleEat() {
+        eat();
     }
 
     function message(value) {
@@ -78,18 +99,21 @@
     // Factories
     // ***************************************
     function playerFactory() {
-        return {};
+        var health = { 
+            overall: 100,
+        };
+        return {
+            eat: (food) => health.overall += 30,
+            getHealth: () => health,
+            processTurn: (turn) => health.overall -= 10
+        };
     }
 
     function gameFactory() {
         var turn = 1;
-        var updateDayCounter = () => $ui.dayCounters.text(turn);
-        updateDayCounter();
 
         return {
-            appendTurn: () => { 
-                turn++; 
-                updateDayCounter(); },
+            appendTurn: () => turn++,
             getTurn: () => turn,
             getNewGame: () => gameFactory()
         };
@@ -99,11 +123,13 @@
         var gameLog = $(".game-panel .log-output");
         var devLog = $(".developer-panel .log-output");
         var dayCounters = $(".day-counter");
-        
+        var playerHealthCounters = $(".player-health");
+
         return {
             dayCounters: dayCounters,
             devLog: devLog,
-            gameLog: gameLog
+            gameLog: gameLog,
+            playerHealthCounters: playerHealthCounters
         };
     }
 
@@ -119,6 +145,7 @@
         wire.click(".action-new-game", handleStartNewGame);
         wire.click(".action-skip-turn", handleSkipTurn);
         wire.click(".action-go-home", handleGameWon);
+        wire.click(".action-eat", handleEat);
     }
 
     function documentReady() {
