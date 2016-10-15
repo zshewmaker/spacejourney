@@ -1,33 +1,47 @@
-(function($){
+(function ($) {
 
+    // ***************************************
+    // Primary game components
+    // ***************************************
     var $ui = uiFactory();
     var $current_game = gameFactory();
+    var $player = playerFactory();
 
-    function handleStartNewGame() {
+    // ***************************************
+    // Game functions
+    // ***************************************
+    function startNewGame() {
         if (!confirm("Are you sure you wish to start a new game?")) {
             return;
         }
         $current_game = $current_game.getNewGame();
-        $ui.dayCounters.text($current_game.getTurn());
         log("Starting new game...", "important");
     }
 
-    function handleSkipTurn(){
+    function skipTurn() {
         $current_game.appendTurn();
-        $ui.dayCounters.text($current_game.getTurn());
     }
 
-    function handleGameWon() {
+    function gameWon() {
         log("You win, congrats!", "important");
     }
 
-    function wireEventHandlers() {
-        $(".action-new-game").click(() => profile(handleStartNewGame));
-        $(".action-skip-turn").click(() => profile(handleSkipTurn));
-        $(".action-go-home").click(() => profile(handleGameWon));
+    // ***************************************
+    // Infrastructure
+    // ***************************************
+    function handleStartNewGame() {
+        startNewGame();
     }
 
-    function log(value, level){
+    function handleSkipTurn() {
+        skipTurn();
+    }
+
+    function handleGameWon() {
+        gameWon();
+    }
+
+    function log(value, level) {
         level = level || "info";
 
         console.log(value);
@@ -35,35 +49,57 @@
         $ui.devLog.scrollTop($ui.devLog[0].scrollHeight);
     }
 
-    function profile(value, args){
-        args = args || [];
-
+    function profile(value, args) {
         var functionName = value.name;
         log(functionName + " starting.");
-        var result = value();
+        var result = value.apply(this, args);
         log(functionName + " done.");
         return result;
+    }
+
+    // ***************************************
+    // Factories
+    // ***************************************
+    function playerFactory() {
+        return {};
+    }
+
+    function gameFactory() {
+        var turn = 1;
+        var updateDayCounter = () => $ui.dayCounters.text(turn);
+        updateDayCounter();
+
+        return {
+            appendTurn: () => { turn++; updateDayCounter(); },
+            getTurn: () => turn,
+            getNewGame: () => gameFactory()
+        };
     }
 
     function uiFactory() {
         var devLog = $(".developer-panel .log-output");
         var dayCounters = $(".day-counter");
+        
         return {
             dayCounters: dayCounters,
             devLog: devLog
         };
-    };
+    }
 
-    function gameFactory() {
-        var turn = 1;
-        return {
-            appendTurn: () => turn++,
-            getTurn: () => turn,
-            getNewGame: () => gameFactory()
+    // ***************************************
+    // Bootstrap
+    // ***************************************
+    function wireEventHandlers() {
+        var wire = {
+            click: (selector, handler, args) => { $(selector).click(() => profile(handler, args || [])); }
         };
-    };
 
-    function documentReady(){
+        wire.click(".action-new-game", handleStartNewGame, []);
+        wire.click(".action-skip-turn", handleSkipTurn);
+        wire.click(".action-go-home", handleGameWon);
+    }
+
+    function documentReady() {
         profile(wireEventHandlers);
     }
 
