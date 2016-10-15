@@ -11,25 +11,33 @@
     // Game functions
     // ***************************************
     function startNewGame() {
-        if (!confirm("Are you sure you wish to start a new game?")) {
-            return;
-        }
         $current_game = $current_game.getNewGame();
         log("Starting new game...", "important");
+
+        clearMessages();
+        message("You were the captain of the Pilgrim, a spaceship.");
+        message("A catastrophic accident occurred. Every crew member but yourself was killed.");
+        message("The ship is badly damaged.");
+        message("And you need to get home.");
     }
 
     function skipTurn() {
         $current_game.appendTurn();
+        message("You did nothing.");
     }
 
     function gameWon() {
-        log("You win, congrats!", "important");
+        log("Game won.", "important");
+        message("You made it home, congrats!");
     }
 
     // ***************************************
     // Infrastructure
     // ***************************************
     function handleStartNewGame() {
+        if (!confirm("Are you sure you wish to start a new game?")) {
+            return;
+        }
         startNewGame();
     }
 
@@ -39,6 +47,15 @@
 
     function handleGameWon() {
         gameWon();
+    }
+
+    function message(value) {
+        $ui.gameLog.append("<li>" + value + "</li>");
+        $ui.gameLog.scrollTop($ui.gameLog[0].scrollHeight);
+    }
+
+    function clearMessages() {
+        $ui.gameLog.empty();
     }
 
     function log(value, level) {
@@ -70,19 +87,23 @@
         updateDayCounter();
 
         return {
-            appendTurn: () => { turn++; updateDayCounter(); },
+            appendTurn: () => { 
+                turn++; 
+                updateDayCounter(); },
             getTurn: () => turn,
             getNewGame: () => gameFactory()
         };
     }
 
     function uiFactory() {
+        var gameLog = $(".game-panel .log-output");
         var devLog = $(".developer-panel .log-output");
         var dayCounters = $(".day-counter");
         
         return {
             dayCounters: dayCounters,
-            devLog: devLog
+            devLog: devLog,
+            gameLog: gameLog
         };
     }
 
@@ -91,16 +112,18 @@
     // ***************************************
     function wireEventHandlers() {
         var wire = {
-            click: (selector, handler, args) => { $(selector).click(() => profile(handler, args || [])); }
+            // wire.click(".action-new-game", handleStartNewGame, ["easy"]);
+            click: (selector, handler, args) => $(selector).click(() => profile(handler, args || []))
         };
 
-        wire.click(".action-new-game", handleStartNewGame, []);
+        wire.click(".action-new-game", handleStartNewGame);
         wire.click(".action-skip-turn", handleSkipTurn);
         wire.click(".action-go-home", handleGameWon);
     }
 
     function documentReady() {
         profile(wireEventHandlers);
+        profile(startNewGame);
     }
 
     $().ready(() => {
