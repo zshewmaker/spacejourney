@@ -7,15 +7,56 @@ html {
   font-size: 13px;
 }
 body {
+  background-color: #202020;
+  color: #eeeeee;
   font-family: 'Roboto', sans-serif;
+  margin: 20px;
 }
 header {
-  margin: 20px;
+  margin-bottom: 20px;
 }
 header h1 {
   font-size: 1.2rem;
   font-weight: bold;
 }
 header nav {
-  margin-top: 20px;
+  font-size: .75rem;
+  margin-top: 5px;
+}
+.panel {
+  border: 1px solid #eeeeee;
+  float: left;
+  min-height: 200px;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  padding: 10px;
+  width: 49%;
+}
+.panel h2 {
+  border-bottom: 1px solid #eeeeee;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.log-output {
+  height: 150px;
+  margin: 0 auto;
+  overflow: scroll;
+  width: 90%;
+}
+.log-output li {
+  color: #dddddd;
+  font-size: .9rem;
+  margin-bottom: 4px;
+  padding: 1px;
+}
+.log-output li:before {
+  content: " > ";
+}
+.log-output li:hover {
+  background-color: #eeeeee;
+  color: #202020;
+}
+.log-output li:nth-child(even) {
+  background-color: #303030;
+  color: #eeeeee;
 }
