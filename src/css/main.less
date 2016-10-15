@@ -20,6 +20,7 @@ body {
 
 header {
     margin-bottom: 20px;
+    margin-right: 1.5%;
 
     h1 {
         font-size: 1.2rem;
@@ -30,12 +31,17 @@ header {
         font-size: .75rem;
         margin-top: 5px;
     }
+
+    .day-header {
+        float: right;
+        font-size: 1.25rem;
+    }
 }
 
 .panel {
     border: 1px solid @primary-text-color;
     float: left;
-    min-height: 200px;
+    height: 40%;
     margin-bottom: 20px;
     margin-right: 10px;
     padding: 10px;
@@ -49,29 +55,47 @@ header {
 }
 
 .log-output {
-    height: 150px;
+    max-height: 90%;
     margin: 0 auto;
     overflow: scroll;
-    width: 90%;
+    width: 98%;
+
+    .log-level-error {
+        color: #f06060;
+    }
+
+    .log-level-important {
+        color: #f0f060;
+    }
 
     li {
         color: #dddddd;
         font-size: .9rem;
         margin-bottom: 4px;
         padding: 1px;
-    }
 
-    li:before {
-        content: " > ";
-    }
-    
-    li:hover {
-        background-color: @primary-text-color;
-        color: @primary-background-color;
-    }
+        &:before {
+            color: @primary-text-color;
+            content: " > ";
+            font-weight: bold;
+        }
 
-    li:nth-child(even) {
-        background-color: #303030;
-        color: @primary-text-color;
+        &:nth-child(even) {
+            background-color: #303030;
+            color: @primary-text-color;
+
+            &.log-level-error {
+                color: #f03030;
+            }
+
+            &.log-level-important {
+                color: #f0f030;
+            }
+        }
+        
+        &:hover {
+            background-color: @primary-text-color;
+            color: @primary-background-color;
+        }
     }
 }

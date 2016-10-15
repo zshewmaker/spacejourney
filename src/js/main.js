@@ -3,17 +3,29 @@
     var $ui = uiFactory();
 
     function handleStartNewGame() {
-        log("starting new game...starting new game...starting new game...starting new game...starting new game...starting new game...starting new game...starting new game...starting new game...starting new game...starting new game...starting new game...starting new game...starting new game...starting new game...");
+        log("Starting new game...", "important");
     }
 
     function wireEventHandlers() {
         $("nav .new-game").click(handleStartNewGame);
     }
 
-    function log(value){
+    function log(value, level){
+        level = level || "info";
+
         console.log(value);
-        $ui.devLog.append("<li>" + value + "</li>");
+        $ui.devLog.append("<li class=\"log-level-" + level + "\">" + value + "</li>");
         $ui.devLog.scrollTop($ui.devLog[0].scrollHeight);
+    }
+
+    function profile(value, args){
+        args = args || [];
+
+        var functionName = value.name;
+        log(functionName + " starting.");
+        var result = value();
+        log(functionName + " done.");
+        return result;
     }
 
     function uiFactory() {
@@ -23,8 +35,12 @@
         };
     };
 
+    function documentReady(){
+        profile(wireEventHandlers);
+    }
+
     $().ready(function() {
-        wireEventHandlers();
+        profile(documentReady);
     });
 
 })($);
