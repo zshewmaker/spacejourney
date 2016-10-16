@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Come Home, Pilgrim</title>
+	<title>Homeward, Pilgrim</title>
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<link href="css/reset.css" rel="stylesheet"/>
 	<link href="css/main.css" rel="stylesheet"/>
@@ -9,7 +9,7 @@
 
 	<header>
 		<div class="day-header">Day <span class="day-counter">0</span></div>
-		<h1>Come Home, Pilgrim</h1>
+		<h1>Homeward, Pilgrim</h1>
 		<nav>
 			<ul>
 				<li>
@@ -27,9 +27,15 @@
 
 	<section class="panel overview-panel">
 		<h2>Overview</h2>
-		<div>
-			Player health: <span class="player-health">0</span>
-		</div>
+		<ul>
+			<li>
+				Player health: <span class="player-health">0</span>
+			</li>
+			<li>
+				Hunger: <span class="player-hunger">0</span>
+			</li>
+		</ul>
+		
 	</section>
 	
 	<section class="panel actions-panel">
@@ -52,5 +58,8 @@
 	<script src="http://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/lodash/4.16.4/lodash.min.js" crossorigin="anonymous"></script>
 	<script src="js/main.js"></script>
+	<script src="js/watts.ui.js"></script>
+	<script src="js/watts.game.js"></script>
+	<script src="js/watts.player.js"></script>
 </body>
 </html>

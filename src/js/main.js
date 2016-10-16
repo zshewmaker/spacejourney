@@ -1,54 +1,82 @@
-(function ($) {
+var $watts = {
+    ui: null,
+    game: null,
+    player: null
+};
 
-    // ***************************************
-    // Primary game components
-    // ***************************************
-    var $ui = uiFactory();
-    var $current_game = gameFactory();
-    var $player = playerFactory();
+function message(value, level) {
+    level = level || "normal";
+
+    $watts.ui.gameLog.append("<li class=\"message-" + level + "\">" + value + "</li>");
+    $watts.ui.gameLog.scrollTop($watts.ui.gameLog[0].scrollHeight);
+}
+
+function clearMessages() {
+    $watts.ui.gameLog.empty();
+}
+
+function log(value, level) {
+    level = level || "info";
+
+    console.log(value);
+    $watts.ui.devLog.append("<li class=\"log-level-" + level + "\">" + value + "</li>");
+    $watts.ui.devLog.scrollTop($watts.ui.devLog[0].scrollHeight);
+}
+
+function withProfile(value, args) {
+    var functionName = value.name;
+    log(functionName + " starting.");
+    var result = value.apply(this, args);
+    log(functionName + " done.");
+    return result;
+}
+
+(function($, $watts) {
 
     // ***************************************
     // Game functions
     // ***************************************
     function startNewGame() {
-        $current_game = $current_game.getNewGame();
+        $watts.game = $watts.game.getNewGame();
+        $watts.player = $watts.player.factory();
         updateUi();
         log("Starting new game...", "important");
 
         clearMessages();
-        message("You were the captain of the Pilgrim, a spaceship.");
-        message("A catastrophic accident occurred. Every crew member but yourself was killed.");
+        message("You were the captain of the <em>Pilgrim</em>, a spaceship.");
+        message("A catastrophic accident occurred. <strong>All crew members were killed.</strong>");
         message("The ship is badly damaged.");
         message("And you need to get home.");
     }
 
-    function tick() {
-        $current_game.appendTurn();
-        $player.processTurn();
+    function playerFinishedTurn() {
+        $watts.game.appendTurn();
+        $watts.player.processTurn();
         updateUi();
     }
 
     function skipTurn() {
         message("You did nothing.");
-        tick();
+        playerFinishedTurn();
     }
 
     function gameWon() {
         log("Game won.", "important");
-        message("You made it home, congrats!");
+        message("You made it home, congrats!", "important");
     }
 
     function eat() {
-        $player.eat();
-        tick();
+        $watts.player.eat();
+        playerFinishedTurn();
     }
 
     // ***************************************
     // Infrastructure
     // ***************************************
     function updateUi() {
-        $ui.dayCounters.text($current_game.getTurn());
-        $ui.playerHealthCounters.text($player.getHealth().overall);
+        $watts.ui.dayCounters.text($watts.game.getTurn());
+        $watts.ui.playerHealthCounters.text($watts.player.getHealth().overall);
+        $watts.ui.playerHungerCounters.text($watts.player.getSatiety());
     }
 
     function handleStartNewGame() {
@@ -70,76 +98,13 @@
         eat();
     }
 
-    function message(value) {
-        $ui.gameLog.append("<li>" + value + "</li>");
-        $ui.gameLog.scrollTop($ui.gameLog[0].scrollHeight);
-    }
-
-    function clearMessages() {
-        $ui.gameLog.empty();
-    }
-
-    function log(value, level) {
-        level = level || "info";
-
-        console.log(value);
-        $ui.devLog.append("<li class=\"log-level-" + level + "\">" + value + "</li>");
-        $ui.devLog.scrollTop($ui.devLog[0].scrollHeight);
-    }
-
-    function profile(value, args) {
-        var functionName = value.name;
-        log(functionName + " starting.");
-        var result = value.apply(this, args);
-        log(functionName + " done.");
-        return result;
-    }
-
-    // ***************************************
-    // Factories
-    // ***************************************
-    function playerFactory() {
-        var health = { 
-            overall: 100,
-        };
-        return {
-            eat: (food) => health.overall += 30,
-            getHealth: () => health,
-            processTurn: (turn) => health.overall -= 10
-        };
-    }
-
-    function gameFactory() {
-        var turn = 1;
-
-        return {
-            appendTurn: () => turn++,
-            getTurn: () => turn,
-            getNewGame: () => gameFactory()
-        };
-    }
-
-    function uiFactory() {
-        var gameLog = $(".game-panel .log-output");
-        var devLog = $(".developer-panel .log-output");
-        var dayCounters = $(".day-counter");
-        var playerHealthCounters = $(".player-health");
-
-        return {
-            dayCounters: dayCounters,
-            devLog: devLog,
-            gameLog: gameLog,
-            playerHealthCounters: playerHealthCounters
-        };
-    }
-
     // ***************************************
     // Bootstrap
     // ***************************************
     function wireEventHandlers() {
         var wire = {
             // wire.click(".action-new-game", handleStartNewGame, ["easy"]);
-            click: (selector, handler, args) => $(selector).click(() => profile(handler, args || []))
+            click: (selector, handler, args) => $(selector).click(() => withProfile(handler, args || []))
         };
 
         wire.click(".action-new-game", handleStartNewGame);
@@ -149,12 +114,12 @@
     }
 
     function documentReady() {
-        profile(wireEventHandlers);
-        profile(startNewGame);
+        withProfile(wireEventHandlers);
+        withProfile(startNewGame);
     }
 
     $().ready(() => {
-        profile(documentReady);
+        withProfile(documentReady);
     });
 
-})($);
+})($, $watts);

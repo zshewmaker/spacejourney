@@ -1,5 +1,7 @@
 @primary-background-color: #202020;
 @primary-text-color: #eeeeee;
+@important-text-color: #c02020;
+@warning-text-color: #c0c020;
 
 * {
   -webkit-box-sizing: border-box;
@@ -16,6 +18,14 @@ body {
     color: @primary-text-color;
     font-family: 'Roboto', sans-serif;
     margin: 20px;
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
 }
 
 header {
@@ -52,6 +62,15 @@ header {
         font-weight: bold;
         margin-bottom: 10px;
     }
+
+    &.game-panel {
+        .log-output {
+            strong {
+                font-size: 1.1rem;
+                color: @important-text-color;
+            }
+        }
+    }
 }
 
 .log-output {
@@ -60,19 +79,20 @@ header {
     overflow: scroll;
     width: 98%;
 
-    .log-level-error {
-        color: #f06060;
-    }
-
-    .log-level-important {
-        color: #f0f060;
-    }
-
     li {
         color: #dddddd;
         font-size: .9rem;
         margin-bottom: 4px;
         padding: 1px;
+
+        &.log-level-error,
+        &.message-important {
+            color: @important-text-color;
+        }
+
+        &.log-level-important {
+            color: @warning-text-color;
+        }
 
         &:before {
             color: @primary-text-color;
@@ -84,12 +104,13 @@ header {
             background-color: #303030;
             color: @primary-text-color;
 
-            &.log-level-error {
-                color: #f03030;
+            &.log-level-error,
+            .message-important {
+                color: @important-text-color + #304040;
             }
 
             &.log-level-important {
-                color: #f0f030;
+                color: @warning-text-color + #303040;
             }
         }
         

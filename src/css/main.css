@@ -12,6 +12,12 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 20px;
 }
+em {
+  font-style: italic;
+}
+strong {
+  font-weight: bold;
+}
 header {
   margin-bottom: 20px;
   margin-right: 1.5%;
@@ -42,23 +48,28 @@ header .day-header {
   font-weight: bold;
   margin-bottom: 10px;
 }
+.panel.game-panel .log-output strong {
+  font-size: 1.1rem;
+  color: #c02020;
+}
 .log-output {
   max-height: 90%;
   margin: 0 auto;
   overflow: scroll;
   width: 98%;
 }
-.log-output .log-level-error {
-  color: #f06060;
-}
-.log-output .log-level-important {
-  color: #f0f060;
-}
 .log-output li {
   color: #dddddd;
   font-size: .9rem;
   margin-bottom: 4px;
   padding: 1px;
+}
+.log-output li.log-level-error,
+.log-output li.message-important {
+  color: #c02020;
+}
+.log-output li.log-level-important {
+  color: #c0c020;
 }
 .log-output li:before {
   color: #eeeeee;
@@ -69,11 +80,12 @@ header .day-header {
   background-color: #303030;
   color: #eeeeee;
 }
-.log-output li:nth-child(even).log-level-error {
-  color: #f03030;
+.log-output li:nth-child(even).log-level-error,
+.log-output li:nth-child(even) .message-important {
+  color: #f06060;
 }
 .log-output li:nth-child(even).log-level-important {
-  color: #f0f030;
+  color: #f0f060;
 }
 .log-output li:hover {
   background-color: #eeeeee;
