@@ -23,6 +23,7 @@
             factory: () => factory(),
             getHealth: () => health,
             getSatiety: () => satiety,
+            hurt: (amount) => health.overall -= amount,
             processTurn: processTurn
         };
     };

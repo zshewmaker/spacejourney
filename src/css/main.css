@@ -81,7 +81,7 @@ header .day-header {
   color: #eeeeee;
 }
 .log-output li:nth-child(even).log-level-error,
-.log-output li:nth-child(even) .message-important {
+.log-output li:nth-child(even).message-important {
   color: #f06060;
 }
 .log-output li:nth-child(even).log-level-important {

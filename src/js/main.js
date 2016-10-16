@@ -4,6 +4,18 @@ var $watts = {
     player: null
 };
 
+function $ui() {
+    return $watts.ui;
+}
+
+function $game() {
+    return $watts.game;
+}
+
+function $player() {
+    return $watts.player;
+}
+
 function message(value, level) {
     level = level || "normal";
 
@@ -45,8 +57,10 @@ function withProfile(value, args) {
         clearMessages();
         message("You were the captain of the <em>Pilgrim</em>, a spaceship.");
         message("A catastrophic accident occurred. <strong>All crew members were killed.</strong>");
-        message("The ship is badly damaged.");
+        $player().hurt(30);
+        message("You are injured and the ship is badly damaged.");
         message("And you need to get home.");
+        updateUi();
     }
 
     function playerFinishedTurn() {
