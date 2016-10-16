@@ -1,38 +1,32 @@
 var $watts = {
     ui: null,
     game: null,
-    player: null
+    player: null,
+    ship: null
 };
 
-function $ui() {
-    return $watts.ui;
-}
-
-function $game() {
-    return $watts.game;
-}
-
-function $player() {
-    return $watts.player;
-}
+var $ui = () => $watts.ui;
+var $game = () => $watts.game;
+var $player = () => $watts.player;
+var $ship = () => $watts.ship;
 
 function message(value, level) {
     level = level || "normal";
 
-    $watts.ui.gameLog.append("<li class=\"message-" + level + "\">" + value + "</li>");
-    $watts.ui.gameLog.scrollTop($watts.ui.gameLog[0].scrollHeight);
+    $ui().gameLog.append("<li class=\"message-" + level + "\">" + value + "</li>");
+    $ui().gameLog.scrollTop($watts.ui.gameLog[0].scrollHeight);
 }
 
 function clearMessages() {
-    $watts.ui.gameLog.empty();
+    $ui().gameLog.empty();
 }
 
 function log(value, level) {
     level = level || "info";
 
     console.log(value);
-    $watts.ui.devLog.append("<li class=\"log-level-" + level + "\">" + value + "</li>");
-    $watts.ui.devLog.scrollTop($watts.ui.devLog[0].scrollHeight);
+    $ui().devLog.append("<li class=\"log-level-" + level + "\">" + value + "</li>");
+    $ui().devLog.scrollTop($watts.ui.devLog[0].scrollHeight);
 }
 
 function withProfile(value, args) {
@@ -49,8 +43,8 @@ function withProfile(value, args) {
     // Game functions
     // ***************************************
     function startNewGame() {
-        $watts.game = $watts.game.getNewGame();
-        $watts.player = $watts.player.factory();
+        $watts.game = $game().getNewGame();
+        $watts.player = $player().factory();
         updateUi();
         log("Starting new game...", "important");
 
@@ -64,8 +58,8 @@ function withProfile(value, args) {
     }
 
     function playerFinishedTurn() {
-        $watts.game.appendTurn();
-        $watts.player.processTurn();
+        $game().appendTurn();
+        $player().processTurn();
         updateUi();
     }
 
@@ -80,7 +74,7 @@ function withProfile(value, args) {
     }
 
     function eat() {
-        $watts.player.eat();
+        $player().eat();
         playerFinishedTurn();
     }
 
@@ -88,9 +82,10 @@ function withProfile(value, args) {
     // Infrastructure
     // ***************************************
     function updateUi() {
-        $watts.ui.dayCounters.text($watts.game.getTurn());
-        $watts.ui.playerHealthCounters.text($watts.player.getHealth().overall);
-        $watts.ui.playerHungerCounters.text($watts.player.getSatiety());
+        $ui().dayCounters.text($game().getTurn());
+        $ui().playerHealthCounters.text($player().getHealth().overall);
+        $ui().playerHungerCounters.text($player().getSatiety());
+        $ui().shipUnusedMatter.text($ship().getUnusedMatter())
     }
 
     function handleStartNewGame() {

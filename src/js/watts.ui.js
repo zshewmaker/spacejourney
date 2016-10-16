@@ -5,13 +5,15 @@
         var dayCounters = $(".day-counter");
         var playerHealthCounters = $(".player-health");
         var playerHungerCounters = $(".player-hunger");
+        var shipUnusedMatter = $(".ship-unused-matter");
 
         return {
             dayCounters: dayCounters,
             devLog: devLog,
             gameLog: gameLog,
             playerHealthCounters: playerHealthCounters,
-            playerHungerCounters: playerHungerCounters
+            playerHungerCounters: playerHungerCounters,
+            shipUnusedMatter: shipUnusedMatter
         };
     };
 

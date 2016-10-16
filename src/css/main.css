@@ -48,6 +48,9 @@ header .day-header {
   font-weight: bold;
   margin-bottom: 10px;
 }
+.panel ul {
+  margin-bottom: 20px;
+}
 .panel.game-panel .log-output strong {
   font-size: 1.1rem;
   color: #c02020;
