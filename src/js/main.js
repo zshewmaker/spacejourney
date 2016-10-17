@@ -43,8 +43,8 @@ function withProfile(value, args) {
     // Game functions
     // ***************************************
     function startNewGame() {
-        $watts.game = $game().getNewGame();
-        $watts.player = $player().factory();
+        $game().reset();
+        $player().reset();
         updateUi();
         log("Starting new game...", "important");
 
@@ -82,10 +82,10 @@ function withProfile(value, args) {
     // Infrastructure
     // ***************************************
     function updateUi() {
-        $ui().dayCounters.text($game().getTurn());
-        $ui().playerHealthCounters.text($player().getHealth().overall);
-        $ui().playerHungerCounters.text($player().getSatiety());
-        $ui().shipUnusedMatter.text($ship().getUnusedMatter())
+        $ui().dayCounters.text($game().turn);
+        $ui().playerHealthCounters.text($player().health.overall);
+        $ui().playerHungerCounters.text($player().satiety);
+        $ui().shipUnusedMatter.text($ship().unusedMatter)
     }
 
     function handleStartNewGame() {

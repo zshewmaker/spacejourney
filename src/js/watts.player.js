@@ -1,32 +1,44 @@
-(function($, $watts) {
-    var factory = function(){
-        var health = {
-            overall: 100
-        };
+(function ($, $watts) {
+    class Player {
+        constructor() {
+            this.reset();
+        }
 
-        var satiety = 100;
+        get health() {
+            return this._health;
+        }
 
-        var processTurn = function (turn) {
-            if (satiety <= 0) {
-                health.overall -= 10;
+        get satiety() {
+            return this._satiety;
+        }
+
+        eat(food) {
+            this._satiety = Math.min(this._satiety + 30, 100);
+        }
+
+        hurt(amount) {
+            this._health.overall -= amount;
+        }
+
+        processTurn(turn) {
+            if (this._satiety <= 0) {
+                this._health.overall -= 10;
             }
-            if (health.overall <= 0) {
+            if (this._health.overall <= 0) {
                 $watts.game.playerLost();
                 return;
             }
 
-            satiety = satiety <= 0 ? 0 : satiety - 10;
-        };
+            this._satiety = Math.max(this._satiety - 10, 0);
+        }
 
-        return {
-            eat: (food) => satiety += 30,
-            factory: () => factory(),
-            getHealth: () => health,
-            getSatiety: () => satiety,
-            hurt: (amount) => health.overall -= amount,
-            processTurn: processTurn
-        };
-    };
+        reset() {
+            this._health = {
+                overall: 100
+            };
+            this._satiety = 100;
+        }
+    }
 
-    $watts.player = factory();
+    $watts.player = new Player();
 })($, $watts);

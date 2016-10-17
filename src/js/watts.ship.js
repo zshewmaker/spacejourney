@@ -1,12 +1,18 @@
 (function($, $watts) {
 
-    var factory = function(){
-        var unusedMatter = 100;
+    class Ship {
+        constructor(){
+            this.reset();
+        }
 
-        return {
-            getUnusedMatter: () => unusedMatter
-        };
-    };
+        get unusedMatter() {
+            return this._unusedMatter;
+        }
 
-    $watts.ship = factory();
+        reset() {
+            this._unusedMatter = 100;
+        }
+    }
+
+    $watts.ship = new Ship();
 })($, $watts);

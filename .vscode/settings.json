@@ -1,0 +1,5 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "explorer.openEditors.visible": 0,
+    "typescript.tsdk": "C:\\Users\\zshewmaker\\AppData\\Roaming\\npm\\node_modules\\typescript\\lib"
+}

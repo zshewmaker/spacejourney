@@ -1,20 +1,27 @@
-(function($, $watts) {
+(function ($, $watts) {
 
-    var playerLost = function() {
-        log("Game lost.", "important");
-        message("You died!", "important");
-    };
+    class Game {
+        constructor() {
+           this.reset();
+        }
 
-    var factory = function(){
-        var turn = 1;
+        get turn() {
+            return this._turn;
+        }
 
-        return {
-            appendTurn: () => turn++,
-            getTurn: () => turn,
-            getNewGame: () => factory(),
-            playerLost: playerLost
-        };
-    };
+        appendTurn() {
+            this._turn++;
+        }
 
-    $watts.game = factory();
+        playerLost() {
+            log("Game lost.", "important");
+            message("You died!", "important");
+        }
+
+        reset() {
+            this._turn = 1;
+        }
+    }
+
+    $watts.game = new Game();
 })($, $watts);
