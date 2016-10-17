@@ -51,9 +51,10 @@ function withProfile(value, args) {
         clearMessages();
         message("You were the captain of the <em>Pilgrim</em>, a spaceship.");
         message("A catastrophic accident occurred. <strong>All crew members were killed.</strong>");
-        $player().hurt(30);
+        $player().hurt(70);
         message("You are injured and the ship is badly damaged.");
         message("And you need to get home.");
+        message("You are in the captain's quarters.", "strong");
         updateUi();
     }
 
@@ -63,18 +64,8 @@ function withProfile(value, args) {
         updateUi();
     }
 
-    function skipTurn() {
-        message("You did nothing.");
-        playerFinishedTurn();
-    }
-
-    function gameWon() {
-        log("Game won.", "important");
-        message("You made it home, congrats!", "important");
-    }
-
-    function eat() {
-        $player().eat();
+    function performAction(action) {
+        action();
         playerFinishedTurn();
     }
 
@@ -85,7 +76,8 @@ function withProfile(value, args) {
         $ui().dayCounters.text($game().turn);
         $ui().playerHealthCounters.text($player().health.overall);
         $ui().playerHungerCounters.text($player().satiety);
-        $ui().shipUnusedMatter.text($ship().unusedMatter)
+        $ui().shipUnusedMatter.text($ship().unusedMatter);
+        $ui().currentLocation.text($game().playerLocation);
     }
 
     function handleStartNewGame() {
@@ -96,15 +88,15 @@ function withProfile(value, args) {
     }
 
     function handleSkipTurn() {
-        skipTurn();
+        performAction(() => message("You did nothing."));
     }
 
     function handleGameWon() {
-        gameWon();
+        $game().playerWon();
     }
 
     function handleEat() {
-        eat();
+        performAction(() => $player().eat());
     }
 
     // ***************************************

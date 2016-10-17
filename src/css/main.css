@@ -71,6 +71,9 @@ header .day-header {
 .log-output li.message-important {
   color: #c02020;
 }
+.log-output li.message-strong {
+  font-weight: bold;
+}
 .log-output li.log-level-important {
   color: #c0c020;
 }

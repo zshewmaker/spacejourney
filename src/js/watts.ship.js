@@ -5,12 +5,8 @@
             this.reset();
         }
 
-        get unusedMatter() {
-            return this._unusedMatter;
-        }
-
         reset() {
-            this._unusedMatter = 100;
+            this.unusedMatter = 100;
         }
     }
 

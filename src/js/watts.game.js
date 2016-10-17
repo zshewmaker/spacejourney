@@ -1,16 +1,21 @@
 (function ($, $watts) {
 
+    class GameLocation {
+        constructor(id, name, connectsTo) {
+        }
+    }
+
     class Game {
         constructor() {
-           this.reset();
+            this.reset();
         }
 
-        get turn() {
-            return this._turn;
+        get playerLocation() {
+            return this._playerLocation;
         }
 
         appendTurn() {
-            this._turn++;
+            this.turn++;
         }
 
         playerLost() {
@@ -18,8 +23,14 @@
             message("You died!", "important");
         }
 
+        playerWon() {
+            log("Game won.", "important");
+            message("You made it home, congrats!", "important");
+        }
+
         reset() {
-            this._turn = 1;
+            this.turn = 1;
+            this._playerLocation = "Captain's Quarters";
         }
     }
 

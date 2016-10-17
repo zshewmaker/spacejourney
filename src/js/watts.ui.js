@@ -4,16 +4,20 @@
         constructor() {
         }
 
-        get gameLog() {
-            return $(".game-panel .log-output");
+        get currentLocation() {
+            return $(".current-location");
+        }
+
+        get dayCounters() {
+            return $(".day-counter");
         }
 
         get devLog() {
             return $(".developer-panel .log-output");
         }
 
-        get dayCounters() {
-            return $(".day-counter");
+        get gameLog() {
+            return $(".game-panel .log-output");
         }
 
         get playerHealthCounters() {
