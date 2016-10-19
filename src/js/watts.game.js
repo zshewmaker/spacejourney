@@ -2,6 +2,9 @@
 
     class GameLocation {
         constructor(id, name, connectsTo) {
+            this.id = id || "";
+            this.name = name || "";
+            this.connectsTo = connectsTo || [];
         }
     }
 
@@ -30,9 +33,21 @@
 
         reset() {
             this.turn = 1;
-            this._playerLocation = "Captain's Quarters";
+            this._playerLocation = $data.getLocation("bridge");
         }
     }
 
     $watts.game = new Game();
+
+    $data.locations = [
+        new GameLocation("bridge", "Command Bridge", ["hall", "quarters.captain"]),
+        new GameLocation("hall", "Hallway", ["bridge", "quarters.crew", "hatch.ship", "maintenance.ship"]),
+        new GameLocation("quarters.crew", "Crew's Quarters", ["bridge", "medical"]),
+        new GameLocation("quarters.captain", "Captain's Quarters", ["bridge"]),
+        new GameLocation("medical", "Medical Center", ["quarters.crew"]),
+        new GameLocation("hatch.ship", "Hatch to Space", ["bridge"]),
+        new GameLocation("maintenance.ship", "Maintenance Room", ["bridge", "engine.ship"]),
+        new GameLocation("engine.ship", "Engine Room", ["maintenance.ship"])
+    ];
+
 })($, $watts);

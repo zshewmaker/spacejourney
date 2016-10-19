@@ -5,6 +5,11 @@ var $watts = {
     ship: null
 };
 
+var $data = {
+    locations: [],
+    getLocation: (id) => _.find($data.locations, (location) => location.id === id)
+}
+
 var $ui = () => $watts.ui;
 var $game = () => $watts.game;
 var $player = () => $watts.player;
@@ -77,7 +82,13 @@ function withProfile(value, args) {
         $ui().playerHealthCounters.text($player().health.overall);
         $ui().playerHungerCounters.text($player().satiety);
         $ui().shipUnusedMatter.text($ship().unusedMatter);
-        $ui().currentLocation.text($game().playerLocation);
+        $ui().currentLocation.text($game().playerLocation.name);
+
+        $ui().moveActions.empty();
+        _.each($game().playerLocation.connectsTo, (locId) => {
+            var location = $data.getLocation(locId);
+            $ui().moveActions.append('<button data-action="moveTo" data-action-param1="' + location.id + '">' + location.name + '</button>');
+        })
     }
 
     function handleStartNewGame() {

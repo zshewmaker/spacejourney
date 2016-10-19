@@ -4,6 +4,10 @@
         constructor() {
         }
 
+        get moveActions() {
+            return $(".actions-move");
+        }
+
         get currentLocation() {
             return $(".current-location");
         }

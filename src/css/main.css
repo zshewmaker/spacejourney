@@ -55,6 +55,13 @@ header .day-header {
   font-size: 1.1rem;
   color: #c02020;
 }
+.panel.actions-panel .actions-move {
+  margin-bottom: 20px;
+}
+.panel.actions-panel .actions button,
+.panel.actions-panel .actions-move button {
+  margin-right: 10px;
+}
 .log-output {
   max-height: 90%;
   margin: 0 auto;
