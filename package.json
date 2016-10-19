@@ -1,0 +1,22 @@
+{
+  "name": "spacejourney",
+  "version": "0.0.0",
+  "description": "Web-based prototype for a game I'm working on.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zshewmaker/spacejourney.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zshewmaker/spacejourney/issues"
+  },
+  "homepage": "https://github.com/zshewmaker/spacejourney",
+  "dependencies": {
+    "typescript": "^2.0.3"
+  }
+}
