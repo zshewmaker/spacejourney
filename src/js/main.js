@@ -7,7 +7,11 @@ var $watts = {
 
 var $data = {
     locations: [],
-    getLocation: (id) => _.find($data.locations, (location) => location.id === id)
+    getLocation: (id) => _.find($data.locations, (x) => x.id === id),
+    actions: [],
+    getActions: (id) => _.find($data.actions, (x) => x.id === id),
+    incidents: [],
+    getIncidents: (id) => _.find($data.aincidentsctions, (x) => x.id === id)
 }
 
 var $ui = () => $watts.ui;
@@ -43,6 +47,7 @@ function withProfile(value, args) {
 }
 
 (function($, $watts) {
+    "use strict";
 
     // ***************************************
     // Game functions

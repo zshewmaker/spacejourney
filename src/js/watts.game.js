@@ -1,12 +1,5 @@
 (function ($, $watts) {
-
-    class GameLocation {
-        constructor(id, name, connectsTo) {
-            this.id = id || "";
-            this.name = name || "";
-            this.connectsTo = connectsTo || [];
-        }
-    }
+    "use strict";
 
     class Game {
         constructor() {
@@ -38,6 +31,14 @@
     }
 
     $watts.game = new Game();
+
+    class GameLocation {
+        constructor(id, name, connectsTo) {
+            this.id = id || "";
+            this.name = name || "";
+            this.connectsTo = connectsTo || [];
+        }
+    }
 
     $data.locations = [
         new GameLocation("bridge", "Command Bridge", ["hall", "quarters.captain"]),

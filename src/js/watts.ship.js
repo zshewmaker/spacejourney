@@ -1,4 +1,5 @@
 (function($, $watts) {
+    "use strict";
 
     class Ship {
         constructor(){
